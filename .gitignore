@@ -2,3 +2,4 @@
 /.venv/
 /03 - DALLE-3 + API/.env
 /04 - Whisper API + local installation/.env
+/07 - OpenAI functions. Building an agent/.env
