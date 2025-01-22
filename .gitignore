@@ -3,3 +3,6 @@
 /03 - DALLE-3 + API/.env
 /04 - Whisper API + local installation/.env
 /07 - OpenAI functions. Building an agent/.env
+/11  - Capstone project/.env
+/11  - Capstone project/credentials.json
+/11  - Capstone project/token.json
