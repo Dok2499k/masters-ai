@@ -66,11 +66,15 @@ def create_event(summary, start_time_str, end_time_str, attendees=None, timezone
 def get_events_for_period(start_time, end_time):
     service = get_calendar_service()
     try:
-        logging.info(f"Fetching events from {start_time} to {end_time}.")
+        # Ensure timestamps are in the correct format
+        time_min = start_time.isoformat().replace("+00:00", "Z") if start_time.tzinfo == datetime.timezone.utc else start_time.isoformat()
+        time_max = end_time.isoformat().replace("+00:00", "Z") if end_time.tzinfo == datetime.timezone.utc else end_time.isoformat()
+
+        logging.info(f"Fetching events from {time_min} to {time_max}.")
         events_result = service.events().list(
             calendarId='primary',
-            timeMin=start_time.isoformat() + 'Z' if start_time.tzinfo is None or start_time.tzinfo.utcoffset(start_time) == datetime.timedelta(0) else start_time.isoformat(),
-            timeMax=end_time.isoformat() + 'Z' if end_time.tzinfo is None or end_time.tzinfo.utcoffset(end_time) == datetime.timedelta(0) else end_time.isoformat(),
+            timeMin=time_min,
+            timeMax=time_max,
             singleEvents=True,
             orderBy='startTime'
         ).execute()
