@@ -61,26 +61,3 @@ def create_event(summary, start_time_str, end_time_str, attendees=None, timezone
     except Exception as e:
         logging.error(f"Error creating event: {e}")
         return f"Error creating event: {e}"
-
-# Function to fetch events for a specific period
-def get_events_for_period(start_time, end_time):
-    service = get_calendar_service()
-    try:
-        # Ensure timestamps are in the correct format
-        time_min = start_time.isoformat().replace("+00:00", "Z") if start_time.tzinfo == datetime.timezone.utc else start_time.isoformat()
-        time_max = end_time.isoformat().replace("+00:00", "Z") if end_time.tzinfo == datetime.timezone.utc else end_time.isoformat()
-
-        logging.info(f"Fetching events from {time_min} to {time_max}.")
-        events_result = service.events().list(
-            calendarId='primary',
-            timeMin=time_min,
-            timeMax=time_max,
-            singleEvents=True,
-            orderBy='startTime'
-        ).execute()
-        events = events_result.get('items', [])
-        logging.info(f"Fetched events: {events}")
-        return events
-    except Exception as e:
-        logging.error(f"Error fetching events for the period: {e}")
-        return f"Error fetching events for the period: {e}"
